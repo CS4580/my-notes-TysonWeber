@@ -22,8 +22,13 @@ def download_file(url, file_name):
 def unzip_file(file_name):
   #TODO: Unzip file
   cwd = os.getcwd()
+
+  #TODO: make path_to_write, extension variables compatible with files in other directories, e.g. "../data/dataset"
   path_to_write = os.path.join(cwd,file_name).split('.')[0]
   extension = file_name.split('.')[1]
+
+
+  print(os.path.join(cwd,file_name))
 
   #check that it is a zip file
   if(extension) == 'zip':
