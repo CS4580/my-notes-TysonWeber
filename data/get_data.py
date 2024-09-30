@@ -20,7 +20,6 @@ def download_file(url, file_name):
 
 
 def unzip_file(file_name):
-  #TODO: Unzip file
   cwd = os.getcwd()
 
   #TODO: make path_to_write, extension variables compatible with files in other directories, e.g. "../data/dataset"
