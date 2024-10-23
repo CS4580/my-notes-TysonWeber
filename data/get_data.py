@@ -9,39 +9,46 @@ SERVER_URL = 'https://icarus.cs.weber.edu/~hvalle/cs4580/data/'
 
 
 def download_file(url, file_name):
-  #TODO: Download to pwd
+
+  download_folder = "./data"
+
+  # if the data folder does not exist, create one
+  if not os.path.exists(download_folder):
+    os.makedirs(download_folder)
+
+  # path to download the zip to, in the data folder
+  file_path = os.path.join(download_folder, file_name)
 
   # TODO: Error checking: Does the url exist?
-  urllib.request.urlretrieve(url+file_name, file_name)
+  urllib.request.urlretrieve(url+file_name, file_path)
 
-  #if we downloaded the file, unzip it
-  unzip_file(file_name)
-  pass
+  # if we downloaded the file, unzip it
+  # currently it unzips to the pwd that this get_data.py is called from.
+
+  unzip_file(file_path)
 
 
 def unzip_file(file_name):
   cwd = os.getcwd()
 
   #TODO: make path_to_write, extension variables compatible with files in other directories, e.g. "../data/dataset"
-  path_to_write = os.path.join(cwd,file_name).split('.')[0]
-  extension = file_name.split('.')[1]
+  # Currently the file downloads to "./data/"
+  path_to_write = "./data"
+  # extension = file_name.split('.')[-1]
 
 
-  print(os.path.join(cwd,file_name))
+  print(f'extracting {file_name} to ' + os.path.join(cwd,file_name))
 
-  #check that it is a zip file
-  if(extension) == 'zip':
-    #check if there is already a directory for that file, if so do not unzip
-    print(f'path to write: {path_to_write}')
-    if(os.path.exists(path_to_write) == False):
-      with zipfile.ZipFile(os.path.join(cwd,file_name), 'r') as zip_ref: #unzips the file
-        zip_ref.extractall(file_name.split('.')[0]) #write to a folder that does not have .zip in it
-    else:
-      print('-----------------------')
-      print(f"There are already files at {path_to_write}. \nThe file has not been unzipped to prevent redundancy. \nIf you want to unzip this {file_name}, delete the contents at this directory.")
-      print('-----------------------')
-  else:
-    print(f'File type is .{extension}. This function currently only supports .zip')
+  # below logic doesn't quite qork
+  # #check that it is a zip file
+  # if(extension) == 'zip':
+  #   #check if there is already a directory for that file, if so do not unzip
+  #   print(f'path to write: {path_to_write}')
+  with zipfile.ZipFile(os.path.join(cwd,file_name), 'r') as zip_ref: #unzips the file
+    zip_ref.extractall(path_to_write) #write to a folder that does not have .zip in it
+    
+  # else:
+  #   print(f'File type is .{extension}. This function currently only supports .zip')
 
   pass
 
