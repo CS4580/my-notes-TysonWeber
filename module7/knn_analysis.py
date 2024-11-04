@@ -25,7 +25,7 @@ def euclidean_distance(base_case_year: int, comparator_year: int):
 def knn_analysis_driver(data_df, base_case, comparison_type, metric_func, sorted_value='metric'):
     df = data_df.copy() # make a copy of the dataframe
     # WIP: Create df of filter data
-    df[sorted_value] = df[comparison_type].map(lambda x: metric_stub(base_case[comparison_type], x))
+    df[sorted_value] = df[comparison_type].map(lambda x: metric_func(base_case[comparison_type], x))
     # Sort return values from function stub
     sorted_df = df.sort_values(by=sorted_value)
     sorted_df.drop(BASE_CASE_ID, inplace=True)
