@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import get_data as gt # your package
+import Levenshtein
 
 # Constants
 K = 10 # number of closest matches
@@ -35,21 +36,21 @@ def jaccard_similarity_normal(base_case_genres: str, comparator_genres: str):
     return numerator/denominator
 
 
-def _get_weighted_jaccard_similarity_dict(df: pd.DataFrame):
+def _get_weighted_jaccard_similarity_dict(df):
     # Get our selections of our BASE_CASE_ID and SECOND_CASE_ID
     selections_df = [df.loc[BASE_CASE_ID], df.loc[SECOND_CASE_ID]]
-    # add weights for the similarity index
+    # Add weights for the similarity index
     genres_weighted_dictionary = {'total': 0}
-
     for movie in selections_df:
-        for genre in movie['genres'.split(';')]:
+        for genre in movie['genres'].split(';'):
             if genre in genres_weighted_dictionary:
-                genres_weighted_dictionary[genre] += 1 # if the genre is in the dictionary, increment it
+                genres_weighted_dictionary[genre] += 1
             else:
-                genres_weighted_dictionary[genre] = 1 # if the genre is not in the dictionary, create it
-            genres_weighted_dictionary['total'] += 1 # keep track of the weights in the dictionary
+                genres_weighted_dictionary[genre] = 1
+            genres_weighted_dictionary['total'] += 1
 
-    return genres_weighted_dictionary
+    return genres_weighted_dictionary=
+
 
 def jaccard_similarity_weighted(df: pd.DataFrame, comparator_genre: str):
     weighted_dictionary = _get_weighted_jaccard_similarity_dict(df)
@@ -78,7 +79,7 @@ def knn_analysis_driver(data_df, base_case, comparison_type, metric_func, sorted
     if 'jaccard' in metric_func.__name__:
         sorted_df = df.sort_values(by=sorted_value, ascending=False)
     else:
-        sorted_df = df.sort_values(by=sorted_value, ascending=True)
+        sorted_df = df.sort_values(by=sorted_value)
 
     sorted_df.drop(BASE_CASE_ID, inplace=True) # drop the base case
     # print(sorted_df['title'].head(K)) #print top ten values
@@ -126,6 +127,15 @@ def main():
     knn_analysis_driver(data_df=data, base_case=base_case, 
                         comparison_type='genres', metric_func=jaccard_similarity_weighted, 
                         sorted_value='jaccard_similarity_weighted')
+    # Task 7: KNN with Levenshtein Distance
+    print(f'\nTask 7: KNN with Levenshtein Distance')
+    data = gt.load_data(data_file, index_col='IMDB_id')
+    base_case = data.loc[BASE_CASE_ID]
+    print(f"Comparing all movies to our base case {base_case['title']}")
+    knn_analysis_driver(data_df=data, base_case=base_case, 
+                        comparison_type='genres', metric_func=Levenshtein.distance, 
+                        sorted_value='levenshtein_distance')
+    
 
 
 if __name__ == '__main__':

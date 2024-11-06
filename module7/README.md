@@ -102,3 +102,15 @@ result is 3 edits, so the distance is $ = 3$
 # see
 def knn_levenshtein_title()
 ```
+
+### KNN Cosine Similarity Distance
+It is used to measure the cosine of the angle between two vectors in a multi-dimensional space. This is commonly used in text analysis to measure similarities between documents.
+
+$$
+\text{Cosine Similarity} = \cos(\theta)  \\
+= \frac{A \cdot B}{|A| |B|}
+= \frac{\sum_{i=1}^{n}A_i B_i} {\sqrt{\sum_{i=1}^{n} A_i^2} \cdot \sqrt{\sum_{i=1}^{n} B_i^2}}
+$$
+where
+- $ A \cdot B$ is the dot products of $A$ and $B$
+- $|A|$ and $|B|$ are the magnitude (or Euclidean norms)
