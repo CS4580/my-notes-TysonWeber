@@ -49,7 +49,7 @@ def _get_weighted_jaccard_similarity_dict(df):
                 genres_weighted_dictionary[genre] = 1
             genres_weighted_dictionary['total'] += 1
 
-    return genres_weighted_dictionary=
+    return genres_weighted_dictionary
 
 
 def jaccard_similarity_weighted(df: pd.DataFrame, comparator_genre: str):
@@ -133,7 +133,7 @@ def main():
     base_case = data.loc[BASE_CASE_ID]
     print(f"Comparing all movies to our base case {base_case['title']}")
     knn_analysis_driver(data_df=data, base_case=base_case, 
-                        comparison_type='genres', metric_func=Levenshtein.distance, 
+                        comparison_type='title', metric_func=Levenshtein.distance, 
                         sorted_value='levenshtein_distance')
     
 
