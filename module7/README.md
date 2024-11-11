@@ -114,3 +114,63 @@ $$
 where
 - $ A \cdot B$ is the dot products of $A$ and $B$
 - $|A|$ and $|B|$ are the magnitude (or Euclidean norms)
+
+### KNN Cosine Similarity Distance
+
+### KNN Combining Matrices and Filtering Conditions
+
+Two main concerns with `filtering`:
+- Making the filter too complicated (hard SQL queries)
+- Making the filter too strict (end up with no results)
+
+Combine `metrics` to generate `one` result:
+- Weight each metric
+  - Should metrics contribute equally? (50%-50% vs 80%-20%)
+- Normalization of the combined metric
+  - Make sure they have the same range
+
+For our example, we will use:
+- `Cosine`: Use 20% of the `plot`
+- Weighted Jaccard: Use 80% of the `genre`
+
+```python
+# See cosine_and_weighted_jaccard()
+```
+
+
+## Prediction Metrics
+
+A `prediction` is simply a guess about what is going to transpire. One prediction is `yes` or `no`.
+
+How do we measure `accuracy` of the prediction?
+
+```python
+accuracy_metric.py
+```
+
+
+### Confusion Matrix
+It is performed to measure how well your classification model is. The model could be `binary` or multi-class. Each entry in a confusion matrix represents a specific combination of `predicted vs actual` classes.
+
+for binary classification, you have `four` parts:
+- `True Positive (TP)`
+- `True Negative (TN)`
+- `False Positive (FP)` (`Type I Error`)
+- `False Negative (FN)` (`Type II Error`)
+
+The structure of the matrix is as follows:
+|   |Predicted Positive|Predicted Negative   |
+|--|--|--|
+|Actual Positive| True Positive (TP) | False Negative (FN)|
+|Actual Negative| False Positive (FP) | True Negative (TN) |
+
+Key Metrics:
+- `Accuracy` = $\frac{TP + TN}{TP + TN + FP + FN}$
+- `Precision` = $\frac{TP}{TP+FP}$ (useful for imbalance classes)
+- `Recall` (or sensitivity) = $\frac{TP}{TP + FN}$
+- `F1 Score` = $2 \times \frac{Precision \times Recall}{Precision + Recall}$ (harmonic mean of Precision and Recall)
+
+```python
+# see
+confusion_matrix.py
+```

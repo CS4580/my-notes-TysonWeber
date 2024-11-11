@@ -9,7 +9,10 @@ import Levenshtein
 K = 10 # number of closest matches
 BASE_CASE_ID = 88763 # IMDB_id for 'Back to the Future'
 SECOND_CASE_ID = 89530 # IMDB_id for 'Mad Max Beyond Thunderdome'
-BASE_YEAR = 1985
+BASE_YEAR = 1985 # Year for 'Back to the Future'
+
+METRIC1_WT = 0.2
+METRIC2_WT = 0.8
 
 def metric_stub(base_case_value, comparator_value):
     return 0
@@ -63,12 +66,26 @@ def jaccard_similarity_weighted(df: pd.DataFrame, comparator_genre: str):
     return float(numerator)/float(denominator)
 
 
+def cosine_similarity_function(base_case_plot, comparator_plot):
+    #TODO: Copy this code from lecture
+    return 0
+
+
+def cosine_and_weighted_jaccard(df: pd.DataFrame, plots: str, comparator_movie: pd.core.series.Series):
+    # Perform the cosine similarity and weighted Jaccard metrics:
+    cs_result = cosine_similarity_function
+    return 0
+
+
 def knn_analysis_driver(data_df, base_case, comparison_type, metric_func, sorted_value='metric'):
     df = data_df.copy() # make a copy of the dataframe
     # WIP: Create df of filter data
     if metric_func.__name__ == 'jaccard_similarity_weighted':
          df[sorted_value] = df[comparison_type].map(
              lambda x: metric_func(df, x))
+    elif metric_func.__name__ == 'cosine_and_weighted_jaccard':
+        #TODO
+        pass
     else:
          df[sorted_value] = df[comparison_type].map(
              lambda x: metric_func(base_case[comparison_type], x))
@@ -76,7 +93,7 @@ def knn_analysis_driver(data_df, base_case, comparison_type, metric_func, sorted
 
     # Sort return values from function stub
     # Jaccard needs to be sorted in descending order
-    if 'jaccard' in metric_func.__name__:
+    if 'jaccard' in metric_func.__name__ or 'cosine' in metric_func.__name__:
         sorted_df = df.sort_values(by=sorted_value, ascending=False)
     else:
         sorted_df = df.sort_values(by=sorted_value)
